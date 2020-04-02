@@ -10,4 +10,4 @@
 
 ## Me
 
-![This is me](/docs/me.jpg)
+![Relational Schema](/docs/RS.JPG)
