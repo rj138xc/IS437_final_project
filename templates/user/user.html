@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>User</h1>
+	<form action="/saveuser" method="POST">
+		First Name:<br>
+		<input type="text" name="userFName" value="{{ user.userFName }}" /><br><br>
+		
+		Last Name:<br>
+		<input type="text" name="LName" value="{{ user.userLName }}" /><br><br>
+		
+		Email:<br>
+		<input type="text" name="email" value="{{ user.userEmail }}" /><br><br>
+		
+		<input type="hidden" name="userID" value="{{ user.userID }}" />
+		
+		Password:<br>
+		<input type="password" name="userPassword" /><br><br>
+		
+		Retype Password:<br>
+		<input type="password" name="userPassword2" /><br><br>
+		
+		Type<br>
+		<select name="userType">
+			<option value="customer" >customer</option>
+			<option value="employee" >employee</option>
+		</select>
+		
+		<br>
+		
+		<input type="submit" value="Save user"/>
+			
+		</form>
+{% endblock %}

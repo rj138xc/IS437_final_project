@@ -1,19 +1,22 @@
 import pymysql
 from baseObject import baseObject
-class customerList(baseObject):
+class userList(baseObject):
     #this is the assignment
     def __init__(self):
-        self.setupObject('customers')
+        self.setupObject('users')
         
     def verifyNew(self,n=0):
         self.errorList = []
         
-        if len(self.data[n]['fname']) == 0:
+        if len(self.data[n]['userFName']) == 0:
             self.errorList.append("First name cannot be blank.")
-        if len(self.data[n]['lname']) == 0:
+        if len(self.data[n]['userLName']) == 0:
             self.errorList.append("Last name cannot be blank.")
-        if len(self.data[n]['password']) < 6:
-            self.errorList.append("Password must be at least 6 characters.")
+        if len(self.data[n]['userEmail`']) == '':
+            self.errorList.append("email cannot be blank.")
+        if len(self.data[n]['userPassword`']) < 6:
+            self.errorList.append("Username must contain at least 6 characters.")
+        #TODO
         #Add if statements for validation of other fields
   
         if len(self.errorList) > 0:
@@ -21,8 +24,8 @@ class customerList(baseObject):
         else:
             return True
     def tryLogin(self,email,pw):    
-        #SELECT * FROM `conlontj_customers` WHERE `email` = 'b@a.com' AND `password` = '123'
-        sql = 'SELECT * FROM `' + self.tn + '` WHERE `email` = %s AND `password` = %s;'
+        #SELECT * FROM `customers` WHERE `email` = 'b@a.com' AND `password` = '123'
+        sql = 'SELECT * FROM `' + self.tn + '` WHERE `userEmail` = %s AND `userPassword` = %s;'
         tokens = (email,pw)
         self.connect()
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
