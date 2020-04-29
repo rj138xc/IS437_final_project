@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Animal</h1>
+	<form action="/saveanimal" method="POST">
+    
+		Animal Name:<br>
+		<input type="text" name="animalName" value="{{ animal.animalName }}" /><br><br>
+		
+		Animal Type:<br>
+		<input type="text" name="animalType" value="{{ animal.animalType }}" /><br><br>
+		
+		Animal Breed:<br>
+		<input type="text" name="animalBreed" value="{{ animal.animalBreed }}" /><br><br>
+        
+        Animal Age:<br>
+		<input type="text" name="animalAge" value="{{ animal.animalAge }}" /><br><br>
+        
+        Animal Gender<br>
+		<input type="radio" name="animalGender" value="Male">"Male"<br>
+        <input type="radio" name="animalGender" value="Female">"Female"<br><br>
+        
+        Animal Size<br>
+		<input type="radio" name="animalSize" value="Small">"Small (0-25lb)"<br>
+        <input type="radio" name="animalSize" value="Medium">"Medium (26-40lb)"<br>
+        <input type="radio" name="animalSize" value="Large">"Large (41lb+)"<br><br>
+        
+        Animal Status<br>
+        <select name="animalStatus">
+            <option value="Adopted" >Adopted</option>
+            <option value="New Intake" >New Intake</option>
+            <option value="Available" >Available</option>
+            <option value="Regular Patient" >Regular Patient</option>
+        </select><br><br>
+        
+        Animal Photo URL:<br>
+		<input type="text" name="animalPhoto" value="{{ animal.animalPhoto }}" /><br><br>
+        
+		<input type="hidden" name="animalID" value="{{ animal.animalID }}" />
+		
+		<br><br>
+		
+		<input type="submit" value="Save animal"/>
+			
+		</form>
+{% endblock %}

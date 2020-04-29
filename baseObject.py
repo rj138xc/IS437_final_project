@@ -1,4 +1,4 @@
-import pymysql
+import pymysql,time
 
 class baseObject:
     
@@ -97,6 +97,7 @@ class baseObject:
             self.data.append(row)   
             
     def update(self,n=0):
+        print("IN UPDATE")
         tokens = []
         setstring = ''
         for fieldname in self.data[n].keys():

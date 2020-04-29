@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>New customer</h1>
+	{% if msg %}
+      <div id="errormsg">
+	  {% for err in msg %}
+		{{ err }}<br>
+	  {% endfor %}
+	  </div>
+    {% endif %}
+		
+		<form action="/newanimal" method="POST">
+			Animal Name:<br>
+		<input type="text" name="animalName"/><br><br>
+		
+		Animal Type:<br>
+		<input type="text" name="animalType"/><br><br>
+		
+		Animal Breed:<br>
+		<input type="text" name="animalBreed"/><br><br>
+        
+        Animal Age:<br>
+		<input type="text" name="animalAge"/><br><br>
+        
+        Animal Gender<br>
+		<input type="radio" name="animalGender" value="Male">"Male"<br>
+        <input type="radio" name="animalGender" value="Female">"Female"<br>
+		</select><br>
+        
+        Animal Size<br>
+		<input type="radio" name="animalSize" value="Small">"Small (0-25lb)"<br>
+        <input type="radio" name="animalSize" value="Medium">"Medium (26-40lb)"<br>
+        <input type="radio" name="animalSize" value="Large">"Large (41lb+)"<br><br>
+        
+        Animal Status<br>
+			<select name="animalStatus">
+				<option value="Adopted" >Adopted</option>
+				<option value="New Intake" >New Intake</option>
+                <option value="Available" >Available</option>
+                <option value="Regular Patient" >Regular Patient</option>
+			</select><br><br>
+        
+        Animal Photo URL:<br>
+		<input type="text" name="animalPhoto"/><br><br>
+        
+		<input type="hidden" name="id"/>
+		
+		
+		<br><br>
+		
+		<input type="submit" value="Save animal"/>
+			
+		</form>
+{% endblock %}

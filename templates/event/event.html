@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Event</h1>
+	<form action="/saveevent" method="POST">
+    
+		Event Type:<br>
+		<input type="text" name="eventType" value="{{ event.eventType }}" /><br><br>
+		
+		Event Name:<br>
+		<input type="text" name="eventName" value="{{ event.eventName }}" /><br><br>
+        
+		<input type="hidden" name="eventID" value="{{ event.eventID }}" />
+		
+		Event Result:<br>
+		<input type="text" name="eventResult" value="{{ event.eventResult }}" /><br><br>
+        
+        Animal:<br>
+		<input type="text" name="animalID" value="{{ event.animalID }}" /><br><br>
+        
+        Date to be completed:<br>
+        <input type="text" name="eventCompletedDate" value="{{ event.eventCompletedDate }}" /><br><br>
+        
+        Transaction ID #TODO fix this:<br>
+        <input type="text" name="transactionID" value="{{ event.transactionID }}" /><br><br>
+         
+         <input type="hidden" name="eventID" value="{{ event.eventID }}" />
+		
+		<br><br>
+		
+		<input type="submit" value="Save event"/>
+			
+    </form>
+{% endblock %}

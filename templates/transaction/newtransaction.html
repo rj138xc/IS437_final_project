@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>New Transaction</h1>
+	{% if msg %}
+      <div id="errormsg">
+	  {% for err in msg %}
+		{{ err }}<br>
+	  {% endfor %}
+	  </div>
+    {% endif %}
+		
+		<form action="/newtransaction" method="POST">
+        
+			Transaction Type:<br>
+			<input type="text" name="transactionType" /><br><br>
+			
+			Transaction Amount:<br>
+			<input type="text" name="transactionAmount" /><br><br>
+			
+			
+			<input type="submit" value="Save transaction"/>
+			
+		</form>
+{% endblock %}

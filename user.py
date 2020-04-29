@@ -1,7 +1,6 @@
 import pymysql
 from baseObject import baseObject
 class userList(baseObject):
-    #this is the assignment
     def __init__(self):
         self.setupObject('users')
         
@@ -12,9 +11,9 @@ class userList(baseObject):
             self.errorList.append("First name cannot be blank.")
         if len(self.data[n]['userLName']) == 0:
             self.errorList.append("Last name cannot be blank.")
-        if len(self.data[n]['userEmail`']) == '':
+        if len(self.data[n]['userEmail']) == '':
             self.errorList.append("email cannot be blank.")
-        if len(self.data[n]['userPassword`']) < 6:
+        if len(self.data[n]['userPassword']) < 6:
             self.errorList.append("Username must contain at least 6 characters.")
         #TODO
         #Add if statements for validation of other fields

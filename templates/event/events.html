@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Events</h1>
+		<a href="newevent">Add new event</a>
+		<table>
+		<tr>
+			<td>ID</td>
+			<td>Name</td>
+			<td>animalID</td>
+		</tr>
+        {% for event in events %}
+            <tr>
+                <td><a href="event?eventID={{ event.eventID }}">{{ event.eventID }}</a></td>
+                <td>{{ event.eventName }} {{ event.eventName }}</td>
+                <td>{{ event.animalID }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+{% endblock %}

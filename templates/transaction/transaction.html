@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Transaction</h1>
+	<form action="/savetransaction" method="POST">
+    
+        User:<br>
+        <input type="text" name="userID" value="{{ transaction.userID }}" /><br><br>
+    
+        Transaction Date:<br>
+        <input type="text" name="transactionDate" value="{{ transaction.transactionDate }}"/><br><br>
+    
+        Transaction Type:<br>
+        <input type="text" name="transactionType" value="{{ transaction.transactionType }}"/><br><br>
+    
+		Amount:<br>
+        <input type="text" name="transactionAmount" value="{{ transaction.transactionAmount }}"/><br><br>
+        
+        <input type="hidden" name="transactionID" value="{{ transaction.transactionID }}" />
+		
+		<br><br>
+		
+		<input type="submit" value="Save transaction"/>
+			
+		</form>
+{% endblock %} 

@@ -1,76 +1,79 @@
 '''
 ======================================================================
-START USER PAGES
+START EVENT PAGES
 ======================================================================
 '''
 
-@app.route('/users')
-def users():
+@app.route('/events')
+def events():
+    '''    
     if checkSession() == False: #check to make sure user is logged in	
         return redirect('login')
-    u = userList()
-    u.getAll()
+    '''
+    e = eventList()
+    e.getAll()
     
-    print(u.data)
-    #return ''
-    return render_template('users.html', title='User List',  users=u.data)
+    print(e.data)
+    return render_template('event/events.html', title='Event List',  events=e.data)
     
-@app.route('/user')
-def user():
+@app.route('/event')
+def event():
+    '''
     if checkSession() == False: #check to make sure user is logged in	
         return redirect('login')
-    u = userList()
-    if request.args.get(u.pk) is None:
-        return render_template('error.html', msg='No user id given.')  
+    '''
+    e = eventList()
+    if request.args.get(e.pk) is None:
+        return render_template('error.html', msg='No event id given.')  
 
-    u.getById(request.args.get(u.pk))
-    if len(u.data) <= 0:
-        return render_template('error.html', msg='User not found.')  
+    e.getById(request.args.get(e.pk))
+    if len(e.data) <= 0:
+        return render_template('error.html', msg='Event not found.')  
     
-    print(u.data)
-    return render_template('user.html', title='User ',  user=u.data[0])  
-@app.route('/newuser',methods = ['GET', 'POST'])
-def newuser():
-    if request.form.get('fname') is None:
-        u = userList()
-        u.set('userFName','')
-        u.set('userLName','')
-        u.set('userEmail','')
-        u.set('userPassword','')
-        u.set('userType','')
-        u.add()
-        return render_template('newuser.html', title='New User',  user=u.data[0]) 
+    print(e.data)
+    return render_template('event/event.html', title='Event Details',  event=e.data[0])
+    
+@app.route('/newevent',methods = ['GET', 'POST'])
+def newevent():
+    if request.form.get('eventType') is None:
+        e = eventList()
+        e.set('eventType','')
+        e.set('eventAmount','')
+        e.set('userID','')
+        e.add()
+        return render_template('event/newevent.html', title='New Event',  event=e.data[0]) 
     else:
-        u = userList()
-        u.set('userFName',request.form.get('userFName'))
-        u.set('userLName',request.form.get('userLName'))
-        u.set('userEmail',request.form.get('userEmail'))
-        u.set('userPassword',request.form.get('userPassword'))
-        u.set('userType',request.form.get('userType'))
-        u.add()
-        if u.verifyNew():
-            u.insert()
-            print(u.data)
-            return render_template('saveduser.html', title='User Saved',  user=u.data[0])
+        e = eventList()
+        e.set('eventID',request.form.get('eventID'))
+        e.set('eventAmount',request.form.get('eventAmount'))
+        e.set('userID',request.form.get('userID'))
+       
+        e.add()
+        if e.verifyNew():
+            e.insert()
+            print(e.data)
+            return render_template('event/savedevent.html', title='event Saved',  event=e.data[0])
         else:
-            return render_template('newuser.html', title='User Not Saved',  user=u.data[0],msg=u.errorList)
-@app.route('/saveuser',methods = ['GET', 'POST'])
-def saveuser():
-    u = userList()
-    u.set('userID',request.form.get('userID'))
-    u.set('userFName',request.form.get('userFName'))
-    u.set('userLName',request.form.get('userLName'))
-    u.set('userEmail',request.form.get('userEmail'))
-    u.set('userPassword',request.form.get('userPassword'))
-    u.set('userType',request.form.get('userType'))
-    u.add()
-    u.update()
-    print(u.data)
-    #return ''
-    return render_template('saveduser.html', title='User Saved',  user=u.data[0])
+            return render_template('event/newevent.html', title='event Not Saved',  event=e.data[0],msg=e.errorList)
+            
+@app.route('/saveevent',methods = ['GET', 'POST'])
+def saveevent():
+    e = eventList()
+    e.set('eventID',request.form.get('eventID'))
+    e.set('eventType',request.form.get('eventType'))
+    e.set('eventAmount',request.form.get('eventAmount'))
+    e.set('userID',request.form.get('userID'))
     
-'''
+    e.add()
+    if e.verifyNew():
+        e.update()
+        print(e.data)
+        return render_template('event/savedevent.html', title='event Saved',  event=e.data[0])
+    else:
+        return render_template('event/newevent.html', title='event Not Saved',  event=e.data[0],msg=e.errorList)
+    
+''' 
 ======================================================================
-END USER PAGES 
+END EVENT PAGES 
 ======================================================================
 '''
