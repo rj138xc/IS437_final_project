@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Make a Donation</h1>
+	{% if msg %}
+      <div id="errormsg">
+	  {% for err in msg %}
+		{{ err }}<br>
+	  {% endfor %}
+	  </div>
+    {% endif %}
+		
+		<form action="/newdonation" method="POST">
+        
+			<input type="hidden" name="transactionType" value="Donation" />
+            
+            <input type="hidden" name="transactionID" value="{{ transaction.transactionID }}" />
+			
+			Transaction Amount:<br>
+			<input type="text" name="transactionAmount" /><br><br>
+			
+			
+			<input type="submit" value="Make Donation"/>
+			
+		</form>
+{% endblock %}

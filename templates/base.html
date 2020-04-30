@@ -3,12 +3,12 @@
       {% if title %}
       <title>{{ title }} - Home</title>
       {% else %}
-      <title>Welcome to my example</title>
+      <title>Home</title>
       {% endif %}
 	  <link rel="stylesheet" type="text/css" href="static/style.css">
     </head>
     <body>
-        <div>Go to: <br><a href="/main">Main menu</a><br><a href="/logout">Logout</a></div>
+        <div>Go to: <br><a href="/main">Main menu</a><br><a href="/logout">logout needs to be fixed</a></div>
         <hr>
         {% block content %}{% endblock %}
     </body>

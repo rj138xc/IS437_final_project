@@ -19,4 +19,3 @@ class animalList(baseObject):
             return False
         else:
             return True
-   

@@ -224,7 +224,7 @@ def animal():
         return render_template('error.html', msg='Animal not found.')  
     
     print(a.data)
-    return render_template('animal/animal.html', title='Animal ',  animal=a.data[0])
+    return render_template('animal/animal.html', title='Animal',  animal=a.data[0])
     
 @app.route('/newanimal',methods = ['GET', 'POST'])
 def newanimal():
@@ -258,6 +258,23 @@ def newanimal():
         else:
             return render_template('animal/newanimal.html', title='Animal Not Saved',  animal=a.data[0],msg=a.errorList)
             
+@app.route('/adoptable')
+def adoptable():
+    a = animalList()
+    animalType = ''
+    animalType = request.args.get('animalType', animalType)
+    test = 'animal type: (' + animalType + ')'
+    print(test)
+    if animalType is None or animalType == '':
+        a.getAll()
+        return render_template('animal/adoptable.html', title='Adoptable Animals',  animals=a.data, type='Animal') 
+    else:
+        a.getByField('animalType',animalType)
+        return render_template('animal/adoptable.html', title='Adoptable Animals',  animals=a.data, type=animalType) 
+        
+    return render_template('animal/adoptable.html', title='Adoptable Animals',  animals=a.data)
+    
+            
 @app.route('/saveanimal',methods = ['GET', 'POST'])
 def saveanimal():
     a = animalList()
@@ -277,7 +294,28 @@ def saveanimal():
         return render_template('animal/savedanimal.html', title='Animal Saved',  animal=a.data[0])
     else:
         return render_template('animal/newanimal.html', title='Animal Not Saved',  animal=a.data[0],msg=a.errorList)
+        
+        
+@app.route('/pickanimaltype',methods = ['GET','POST'])
+def pickanimaltype():
+    #customer facing
+    return render_template('animal/pickanimaltype.html', title='Adoption')
+
+@app.route('/viewanimal')
+def viewanimal():
+    #customer facing
+    a = animalList()
+    if request.args.get(a.pk) is None:
+        return render_template('error.html', msg='No animal id given.')  
+
+    a.getById(request.args.get(a.pk))
+    if len(a.data) <= 0:
+        return render_template('error.html', msg='Animal not found.')  
     
+    print(a.data)
+    return render_template('animal/viewanimal.html', title='Animal',  animal=a.data[0])
+    
+  
 '''
 ======================================================================
 END ANIMAL PAGES 
@@ -344,13 +382,57 @@ def newtransaction():
         else:
             return render_template('transaction/newtransaction.html', title='Transaction Not Saved',  transaction=t.data[0],msg=t.errorList)
             
+@app.route('/newdonation',methods = ['GET', 'POST'])
+def newdonation():
+    if checkSession() == False: #check to make sure user is logged in	
+        return redirect('login')
+
+    if request.form.get('transactionType') is None:
+        t = transactionList()
+        t.set('transactionDate','')
+        t.set('transactionType','')
+        t.set('transactionAmount','')
+        t.set('userID','')
+        t.add()
+        return render_template('transaction/newdonation.html', title='New Donation',  transaction=t.data[0]) 
+    else:
+        t = transactionList()
+        t.set('transactionID',request.form.get('transactionID'))
+        t.set('transactionType',request.form.get('transactionType'))
+        t.set('transactionAmount',request.form.get('transactionAmount'))
+        t.set('userID',session['user']['userID'])
+        t.add()
+        
+        if t.verifyNew():
+            t.insert()
+            #print(t.data)
+            return render_template('transaction/saveddonation.html', title='Donation Successful',  transaction=t.data[0])
+        else:
+            return render_template('transaction/newtransaction.html', title='Transaction Not Saved',  transaction=t.data[0],msg=t.errorList)
+            
+@app.route('/savedonation',methods = ['GET', 'POST'])
+def savedonation():
+    t = transactionList()
+    t.set('transactionID',request.form.get('transactionID'))
+    t.set('transactionType',request.form.get('transactionType'))
+    t.set('transactionAmount',request.form.get('transactionAmount'))
+    t.set('userID',session['user']['userID'])
+    t.add()
+    
+    if t.verifyNew():
+        t.update()
+        print("after update",t.data)
+        return render_template('transaction/savedtransaction.html', title='Donation successful',  transaction=t.data[0])
+    else:
+        return render_template('transaction/newtransaction.html', title='Donation unsuccessful',  transaction=t.data[0],msg=t.errorList)
+            
 @app.route('/savetransaction',methods = ['GET', 'POST'])
 def savetransaction():
     t = transactionList()
     t.set('transactionID',request.form.get('transactionID'))
     t.set('transactionType',request.form.get('transactionType'))
     t.set('transactionAmount',request.form.get('transactionAmount'))
-    t.set('userID',request.form.get('userID'))
+    t.set('userID',session['user']['userID'])
     t.add()
     
     if t.verifyNew():
@@ -413,7 +495,9 @@ def newevent():
         e.set('userID','')
         e.set('transactionID','')
         e.add()
-        return render_template('event/newevent.html', title='New Event',  event=e.data[0]) 
+        allAnimals = animalList()
+        allAnimals.getAll()
+        return render_template('event/newevent.html', title='New Event',  event=e.data[0], al = allAnimals.data) 
     else:
         e = eventList()
         e.set('eventType',request.form.get('eventType'))
@@ -502,9 +586,16 @@ def checkSession():
     else:
         return False   
     
+@app.route('/mainadmin')
+def mainadmin():
+    if checkSession() == False: #check to make sure user is logged in	
+        return redirect('login')
+    userinfo = 'Hello, ' + session['user']['userFName'] + ' ' + session['user']['userLName'] + ' (' + session['user']['userType'] + ')'
+    return render_template('mainadmin.html', title='Main menu', msg = userinfo) 
+
 @app.route('/main')
 def main():
-    return render_template('main.html', title='Main menu')  
+    return render_template('main.html', title='Main menu')     
        
 @app.route('/static/<path:path>')
 def send_static(path):

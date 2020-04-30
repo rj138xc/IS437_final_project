@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Animal Rescue & Clinic Employee Menu</h1>
+    
+	<br>
+    {% if msg %}
+      <div id="menumsg">
+		{{ msg }}
+	  </div>
+    {% endif %}
+    <br><br>
+    
+	<a href="customers">Manage Customers</a><br>
+    <a href="users">Manage Users</a><br>
+	<a href="animals">Manage Animals</a><br>
+    <a href="transactions">Manage Transactions</a><br>
+    <a href="events">Manage Events</a><br>
+	
+{% endblock %}

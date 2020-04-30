@@ -24,10 +24,17 @@
             <input type="text" name="eventResult" /><br><br>
             
             Animal:<br>
-            <input type="text" name="animalID" /><br><br>
+            <select name="animalID">
+                {% for animal in al %}
+                <option value="{{ animal.aid }}">{{ animal.animalName }} ({{ animal.animalBreed }} {{ animal.animalType }})</option>
+                {% endfor %}
+            </select> <br><br>
+            
+            <!-- <input type="text" name="animalID" /><br><br>
+            -->
             
             Date to be completed:<br>
-            <input type="text" name="eventCompletedDate" /><br><br>
+            <input type="datetime-local" name="eventCompletedDate" /><br><br>
             
             Transaction ID #TODO fix this:<br>
             <input type="text" name="transactionID" /><br><br>

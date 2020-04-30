@@ -2,11 +2,17 @@
 
 {% block content %}
     <h1>Animal Rescue & Clinic</h1>
+    
 	<br>
-	<a href="customers">Manage Customers</a><br>
-    <a href="users">Manage Users</a><br>
-	<a href="animals">Manage Animals</a><br>
-    <a href="transactions">Manage Transactions</a><br>
-    <a href="events">Manage Events</a><br>
+    {% if msg %}
+      <div id="menumsg">
+		{{ msg }}
+	  </div>
+      <br><br>
+    {% endif %}
+    
+	<a href="pickanimaltype">Adopt</a><br><br>
+    <a href="newdonation">Donate</a><br><br>
+    <a href="events">Schedule an appointment</a><br>
 	
 {% endblock %}

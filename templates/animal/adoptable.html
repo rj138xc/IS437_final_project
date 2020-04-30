@@ -1,0 +1,28 @@
+<!-- customer facing -->
+
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Adoptable {{ type }}s</h1>
+
+		<table>
+		<tr>
+			<td>ID</td>
+            <td>name</td>
+			<td>type</td>
+			<td>breed</td>
+            <td>gender</td>
+            <td>photo</td>
+		</tr>
+        {% for animal in animals %}
+            <tr>
+                <td><a href="viewanimal?animalID={{ animal.animalID }}">{{ animal.animalID }}</a></td>
+                <td>{{ animal.animalName }}</td>
+                <td>{{ animal.animalType }}</td>
+                <td>{{ animal.animalBreed }}</td>
+                <td>{{ animal.animalGender }}</td>
+                <td><img src="Toby.jpg"></td>
+            </tr>
+        {% endfor %}
+        </table>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ animal.animalName }}</h1>
+	<body>
+    
+		
+		<b>Animal Type: </b>
+		{{ animal.animalType }}<br><br>
+		
+		<b>Animal Breed: </b>
+		{{ animal.animalBreed }}<br><br>
+        
+        <b>Animal Age: </b>
+		{{ animal.animalAge }}<br><br>
+        
+        <b>Animal Gender </b>
+		{{ animal.animalGender }}<br><br>
+        
+        <b>Animal Size </b>
+		{{ animal.animalSize }}<br><br>
+        
+        
+        <b>Animal Photo:</b><br>
+		{{ animal.animalPhoto }}<br><br>
+        
+		<input type="hidden" name="animalID" value="{{ animal.animalID }}" />
+		
+		<br><br>
+		
+    <body>
+{% endblock %}
