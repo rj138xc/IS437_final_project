@@ -132,6 +132,18 @@ class baseObject:
         for row in cur:
             self.data.append(row)
             
+    def getByFields(self,field1,value1,field2,value2):
+        sql = 'SELECT * FROM `' + self.tn + '` WHERE `'+field1+'` = %s AND `'+field2+'` = %s;'
+        tokens = (value1,value2)
+        self.connect()
+        cur = self.conn.cursor(pymysql.cursors.DictCursor)
+        #print(sql)
+        #print(tokens)
+        cur.execute(sql,tokens)
+        self.data = []
+        for row in cur:
+            self.data.append(row)
+            
     def getLikeField(self,field,value):
         sql = 'SELECT * FROM `' + self.tn + '` WHERE `'+field+'` LIKE %s;'
         tokens = ('%'+value+'%')

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Schedule a New Appointment:</h1>
+	{% if msg %}
+      <div id="errormsg">
+	  {% for err in msg %}
+		{{ err }}<br>
+	  {% endfor %}
+	  </div>
+    {% endif %}
+		
+		<form action="/newappointment" method="POST">
+			 
+            Event Type:<br>
+            <input type="text" name="eventType" /><br><br>
+            
+            Event Name:<br>
+            <input type="text" name="eventName" /><br><br>
+            
+            <input type="hidden" name="eventID" />
+            
+            <input type="hidden" name="eventResult" value="" />
+            
+            Animal:<br>
+            <select name="animalID">
+                {% for animal in animals %}
+                <option value="{{ animal.animalID }}">{{ animal.animalName }} ({{ animal.animalBreed }} {{ animal.animalType }})</option>
+                {% endfor %}
+            </select> <br><br>
+            
+            <!-- <input type="text" name="animalID" /><br><br>
+            -->
+            
+            Date to be completed:<br>
+            <input type="datetime-local" name="eventCompletedDate" /><br><br>
+            
+            Transaction ID #TODO fix this:<br>
+            <input type="text" name="transactionID" /><br><br>
+            
+			
+			<br><br>
+			
+			<input type="submit" value="Save event"/>
+			
+		</form>
+{% endblock %}

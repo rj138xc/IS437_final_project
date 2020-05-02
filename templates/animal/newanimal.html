@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>New customer</h1>
+    <h1>New animal</h1>
 	{% if msg %}
       <div id="errormsg">
 	  {% for err in msg %}
@@ -15,7 +15,9 @@
 		<input type="text" name="animalName"/><br><br>
 		
 		Animal Type:<br>
-		<input type="text" name="animalType"/><br><br>
+		<input type="radio" name="animalType" value="Dog">"Dog"<br>
+        <input type="radio" name="animalType" value="Cat">"Cat"<br>
+		</select><br>
 		
 		Animal Breed:<br>
 		<input type="text" name="animalBreed"/><br><br>
@@ -40,6 +42,14 @@
                 <option value="Available" >Available</option>
                 <option value="Regular Patient" >Regular Patient</option>
 			</select><br><br>
+            
+        Owner?:<br>
+            <select name="userID">
+                <option value="NULL" >No associated owner</option>
+                {% for user in users %}
+                <option value="{{ user.userID }}">{{ user.userFName }} {{ user.userLName }}({{ user.userType }})</option>
+                {% endfor %}
+            </select> <br><br>
         
         Animal Photo URL:<br>
 		<input type="text" name="animalPhoto"/><br><br>

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Adopt This Animal</h1>
+	{% if msg %}
+      <div id="errormsg">
+	  {% for err in msg %}
+		{{ err }}<br>
+	  {% endfor %}
+	  </div>
+    {% endif %}
+		
+		<form action="/newadoption" method="POST">
+        
+            <b>Animal Name: </b>
+            {{ animal.animalName }}<br><br>
+        
+            <b>Animal Type: </b>
+            {{ animal.animalType }}<br><br>
+            
+            <b>Adoption Fee: ${{ fee }}<br><br>
+        
+			<input type="hidden" name="transactionType" value="Adoption" />
+            
+            <input type="hidden" name="transactionID" value="{{ transaction.transactionID }}" />
+			
+			
+            
+			<input type="submit" value="Adopt this animal"/>
+			
+		</form>
+{% endblock %}

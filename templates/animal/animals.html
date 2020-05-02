@@ -2,15 +2,15 @@
 
 {% block content %}
     <h1>Animals</h1>
-		<a href="newanimal">Add new animal</a>
-		<table>
+		<a href="newanimal">Add new animal</a><br><br>
+		<table border="1px">
 		<tr>
-			<td>ID</td>
-            <td>name</td>
-			<td>type</td>
-			<td>breed</td>
-            <td>gender</td>
-            <td>photo</td>
+			<td><b>ID</b></td>
+            <td><b>name</b></td>
+			<td><b>type</b></td>
+			<td><b>breed</b></td>
+            <td><b>gender</b></td>
+            <td><b>photo</b></td>
 		</tr>
         {% for animal in animals %}
             <tr>

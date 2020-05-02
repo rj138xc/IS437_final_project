@@ -3,7 +3,12 @@
 {% block content %}
     <h1>User "{{ user.userFName }} {{ user.userLName }}" Saved.</h1>
 	<br>
-	<a href="users">Return to user list.</a>
+    {% if user.userType == 'employee' %}
+        <a href="users">Return to user list.</a>
+    {% endif %}
+    {% if user.userType == 'customer' %}
+        <a href="login">Return to Login.</a>
+    {% endif %}
 	
 	
 {% endblock %}

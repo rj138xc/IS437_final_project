@@ -38,6 +38,8 @@ START CUSTOMER PAGES
 def customers():
     if checkSession() == False: #check to make sure user is logged in	
         return redirect('login')
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
     c = customerList()
     c.getAll()
     
@@ -49,6 +51,9 @@ def customers():
 def customer():
     if checkSession() == False: #check to make sure user is logged in	
         return redirect('login')
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+    
     c = customerList()
     if request.args.get(c.pk) is None:
         return render_template('error.html', msg='No customer id given.')  
@@ -62,6 +67,11 @@ def customer():
     
 @app.route('/newcustomer',methods = ['GET', 'POST'])
 def newcustomer():
+    if checkSession() == False: #check to make sure user is logged in	
+        return redirect('login')
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
     if request.form.get('fname') is None:
         c = customerList()
         c.set('fname','')
@@ -88,6 +98,11 @@ def newcustomer():
             
 @app.route('/savecustomer',methods = ['GET', 'POST'])
 def savecustomer():
+    if checkSession() == False: #check to make sure user is logged in	
+        return redirect('login')
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
     c = customerList()
     c.set('id',request.form.get('id'))
     c.set('fname',request.form.get('fname'))
@@ -120,6 +135,9 @@ START USER PAGES
 def users():
     if checkSession() == False: #check to make sure user is logged in	
         return redirect('login')
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
     u = userList()
     u.getAll()
     
@@ -131,6 +149,9 @@ def users():
 def user():
     if checkSession() == False: #check to make sure user is logged in	
         return redirect('login')
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
     u = userList()
     if request.args.get(u.pk) is None:
         return render_template('error.html', msg='No user id given.')  
@@ -141,9 +162,14 @@ def user():
     
     print(u.data)
     return render_template('user/user.html', title='User ',  user=u.data[0])  
-@app.route('/newuser',methods = ['GET', 'POST'])
 
+@app.route('/newuser',methods = ['GET', 'POST'])
 def newuser():
+    if checkSession() == False: #check to make sure user is logged in	
+        return redirect('login')
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
     if request.form.get('userFName') is None:
         u = userList()
         u.set('userFName','')
@@ -167,9 +193,39 @@ def newuser():
             return render_template('user/saveduser.html', title='User Saved',  user=u.data[0])
         else:
             return render_template('user/newuser.html', title='User Not Saved',  user=u.data[0],msg=u.errorList)
+ 
+@app.route('/newusercustomer',methods = ['GET', 'POST']) 
+def newusercustomer():
+#customer facing
+    if request.form.get('userFName') is None:
+        u = userList()
+        u.set('userFName','')
+        u.set('userLName','')
+        u.set('userEmail','')
+        u.set('userPassword','')
+        u.set('userType','')
+        u.add()
+        return render_template('user/newusercustomer.html', title='New User',  user=u.data[0]) 
+    else:
+        u = userList()
+        u.set('userFName',request.form.get('userFName'))
+        u.set('userLName',request.form.get('userLName'))
+        u.set('userEmail',request.form.get('userEmail'))
+        u.set('userPassword',request.form.get('userPassword'))
+        u.set('userType','customer')
+        u.add()
+        
+        
+        if u.verifyNew():
+            u.insert()
+            print(u.data)
+            return render_template('user/saveduser.html', title='User Saved',  user=u.data[0])
+        else:
+            return render_template('user/newusercustomer.html', title='User Not Saved',  user=u.data[0],msg=u.errorList)
+            
 @app.route('/saveuser',methods = ['GET', 'POST'])
-
 def saveuser():
+#customer facing
     u = userList()
     u.set('userID',request.form.get('userID'))
     u.set('userFName',request.form.get('userFName'))
@@ -198,10 +254,11 @@ START ANIMAL PAGES
 
 @app.route('/animals')
 def animals():
-    '''    
     if checkSession() == False: #check to make sure user is logged in	
         return redirect('login')
-    '''
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
     a = animalList()
     a.getAll()
     
@@ -211,10 +268,14 @@ def animals():
     
 @app.route('/animal')
 def animal():
-    '''
     if checkSession() == False: #check to make sure user is logged in	
         return redirect('login')
-    '''
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
+    u = userList()
+    u.getAll()
+    
     a = animalList()
     if request.args.get(a.pk) is None:
         return render_template('error.html', msg='No animal id given.')  
@@ -224,10 +285,18 @@ def animal():
         return render_template('error.html', msg='Animal not found.')  
     
     print(a.data)
-    return render_template('animal/animal.html', title='Animal',  animal=a.data[0])
+    return render_template('animal/animal.html', title='Animal',  animal=a.data[0], users = u.data)
     
 @app.route('/newanimal',methods = ['GET', 'POST'])
 def newanimal():
+    if checkSession() == False: #check to make sure user is logged in	
+        return redirect('login')
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
+    u = userList()
+    u.getAll()
+        
     if request.form.get('animalName') is None:
         a = animalList()
         a.set('animalName','')
@@ -238,8 +307,9 @@ def newanimal():
         a.set('animalSize','')
         a.set('animalPhoto','')
         a.set('animalStatus','')
+        a.set('userID','')
         a.add()
-        return render_template('animal/newanimal.html', title='New Animal',  animal=a.data[0]) 
+        return render_template('animal/newanimal.html', title='New Animal',  animal=a.data[0], users=u.data) 
     else:
         a = animalList()
         a.set('animalName',request.form.get('animalName'))
@@ -250,26 +320,26 @@ def newanimal():
         a.set('animalSize',request.form.get('animalSize'))
         a.set('animalPhoto',request.form.get('animalPhoto'))
         a.set('animalStatus',request.form.get('animalStatus'))
+        a.set('userID',request.form.get('userID'))
         a.add()
         if a.verifyNew():
             a.insert()
             print(a.data)
-            return render_template('animal/savedanimal.html', title='Animal Saved',  animal=a.data[0])
+            return render_template('animal/savedanimal.html', title='Animal Saved',  animal=a.data[0], users=u.data)
         else:
-            return render_template('animal/newanimal.html', title='Animal Not Saved',  animal=a.data[0],msg=a.errorList)
+            return render_template('animal/newanimal.html', title='Animal Not Saved',  animal=a.data[0],msg=a.errorList, users=u.data)
             
 @app.route('/adoptable')
 def adoptable():
+#customer facing
     a = animalList()
     animalType = ''
     animalType = request.args.get('animalType', animalType)
-    test = 'animal type: (' + animalType + ')'
-    print(test)
     if animalType is None or animalType == '':
-        a.getAll()
+        a.getByField('animalStatus','available')
         return render_template('animal/adoptable.html', title='Adoptable Animals',  animals=a.data, type='Animal') 
     else:
-        a.getByField('animalType',animalType)
+        a.getByFields('animalType',animalType,'animalStatus','available')
         return render_template('animal/adoptable.html', title='Adoptable Animals',  animals=a.data, type=animalType) 
         
     return render_template('animal/adoptable.html', title='Adoptable Animals',  animals=a.data)
@@ -277,6 +347,11 @@ def adoptable():
             
 @app.route('/saveanimal',methods = ['GET', 'POST'])
 def saveanimal():
+    if checkSession() == False: #check to make sure user is logged in	
+        return redirect('login')
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
     a = animalList()
     a.set('animalID',request.form.get('animalID'))
     a.set('animalName',request.form.get('animalName'))
@@ -287,13 +362,14 @@ def saveanimal():
     a.set('animalSize',request.form.get('animalSize'))
     a.set('animalPhoto',request.form.get('animalPhoto'))
     a.set('animalStatus',request.form.get('animalStatus'))
+    a.set('userID',request.form.get('userID'))
     a.add()
     if a.verifyNew():
         a.update()
         print(a.data)
         return render_template('animal/savedanimal.html', title='Animal Saved',  animal=a.data[0])
     else:
-        return render_template('animal/newanimal.html', title='Animal Not Saved',  animal=a.data[0],msg=a.errorList)
+        return render_template('animal/newanimal.html', title='Animal Not Saved',  animal=a.data[0], msg=a.errorList)
         
         
 @app.route('/pickanimaltype',methods = ['GET','POST'])
@@ -329,10 +405,11 @@ START TRANSACTION PAGES
 
 @app.route('/transactions')
 def transactions():
-    '''    
     if checkSession() == False: #check to make sure user is logged in	
         return redirect('login')
-    '''
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
     t = transactionList()
     t.getAll()
     
@@ -341,10 +418,11 @@ def transactions():
     
 @app.route('/transaction')
 def transaction():
-    '''
     if checkSession() == False: #check to make sure user is logged in	
         return redirect('login')
-    '''
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
     t = transactionList()
     if request.args.get(t.pk) is None:
         return render_template('error.html', msg='No transaction id given.')  
@@ -358,6 +436,11 @@ def transaction():
     
 @app.route('/newtransaction',methods = ['GET', 'POST'])
 def newtransaction():
+    if checkSession() == False: #check to make sure user is logged in	
+        return redirect('login')
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
     if request.form.get('transactionType') is None:
         t = transactionList()
         t.set('transactionDate','')
@@ -380,14 +463,15 @@ def newtransaction():
             #print(t.data)
             return render_template('transaction/savedtransaction.html', title='Transaction Saved',  transaction=t.data[0])
         else:
-            return render_template('transaction/newtransaction.html', title='Transaction Not Saved',  transaction=t.data[0],msg=t.errorList)
+            return render_template('transaction/newtransaction.html', title='Transaction Not Saved',  transaction=t.data[0] ,msg=t.errorList)
             
 @app.route('/newdonation',methods = ['GET', 'POST'])
 def newdonation():
+#customer facing, must be logged in user
     if checkSession() == False: #check to make sure user is logged in	
         return redirect('login')
 
-    if request.form.get('transactionType') is None:
+    if request.form.get('transactionAmount') is None:
         t = transactionList()
         t.set('transactionDate','')
         t.set('transactionType','')
@@ -408,10 +492,53 @@ def newdonation():
             #print(t.data)
             return render_template('transaction/saveddonation.html', title='Donation Successful',  transaction=t.data[0])
         else:
-            return render_template('transaction/newtransaction.html', title='Transaction Not Saved',  transaction=t.data[0],msg=t.errorList)
+            return render_template('transaction/newdonation.html', title='Donation Unsuccessful',  transaction=t.data[0],msg=t.errorList)
+    
+'''@app.route('/newadoption',methods = ['GET', 'POST'])
+def newadoption():
+    if checkSession() == False: #check to make sure user is logged in	
+        return redirect('login')
+        
+    a = animalList()
+    #id = request.args.get('animalID', animalID)
+    animalID = ''
+    animalID = str(request.args.get('animalID', animalID))
+    print("animalID: ", animalID)
+    a.getById(request.args.get(a.pk))
+    
+    adoptionFee = 0
+    if a.data[0]['animalType'] == 'Dog':
+        adoptionFee = 150
+    elif a.data[0]['animalType'] == 'Cat':
+        adoptionFee = 50
+    else:
+        print('error, adoptionFee')
+    
+    if request.form.get('transactionType') is None:
+        t = transactionList()
+        t.set('transactionDate','')
+        t.set('transactionType','')
+        t.set('transactionAmount','')
+        t.set('userID','')
+        t.add()
+        return render_template('transaction/newadoption.html', title='New Donation',  transaction=t.data[0], animal=a.data[0], fee=adoptionFee) 
+    else:
+        t = transactionList()
+        t.set('transactionID',request.form.get('transactionID'))
+        t.set('transactionType',request.form.get('transactionType'))
+        t.set('transactionAmount',adoptionFee)
+        t.set('userID',session['user']['userID'])
+        t.add()
+        
+        if t.verifyNew():
+            t.insert()
+            #print(t.data)
+            return render_template('transaction/savedadoption.html', title='Adoption Successful',  transaction=t.data[0], animal=a.data[0], fee=adoptionFee)
+        else:
+            return render_template('transaction/newadoption.html', title='Adoption Unsuccessful',  transaction=t.data[0], animal=a.data[0], msg=t.errorList, fee=adoptionFee)
             
-@app.route('/savedonation',methods = ['GET', 'POST'])
-def savedonation():
+@app.route('/savedadoption',methods = ['GET', 'POST'])
+def savedadoption():
     t = transactionList()
     t.set('transactionID',request.form.get('transactionID'))
     t.set('transactionType',request.form.get('transactionType'))
@@ -422,12 +549,34 @@ def savedonation():
     if t.verifyNew():
         t.update()
         print("after update",t.data)
-        return render_template('transaction/savedtransaction.html', title='Donation successful',  transaction=t.data[0])
+        return render_template('transaction/savedadoption.html', title='Adoption successful',  transaction=t.data[0])
     else:
-        return render_template('transaction/newtransaction.html', title='Donation unsuccessful',  transaction=t.data[0],msg=t.errorList)
+        return render_template('transaction/newadoption.html', title='Adoption unsuccessful',  transaction=t.data[0],msg=t.errorList)
+'''    
+@app.route('/savedonation',methods = ['GET', 'POST'])
+def savedonation():
+#customer facing
+    t = transactionList()
+    t.set('transactionID',request.form.get('transactionID'))
+    t.set('transactionType',request.form.get('transactionType'))
+    t.set('transactionAmount',request.form.get('transactionAmount'))
+    t.set('userID',session['user']['userID'])
+    t.add()
+    
+    if t.verifyNew():
+        t.update()
+        print("after update",t.data)
+        return render_template('transaction/saveddonation.html', title='Donation successful',  transaction=t.data[0])
+    else:
+        return render_template('transaction/newdonation.html', title='Donation unsuccessful',  transaction=t.data[0],msg=t.errorList)
             
 @app.route('/savetransaction',methods = ['GET', 'POST'])
 def savetransaction():
+    if checkSession() == False: #check to make sure user is logged in	
+        return redirect('login')
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
     t = transactionList()
     t.set('transactionID',request.form.get('transactionID'))
     t.set('transactionType',request.form.get('transactionType'))
@@ -455,10 +604,11 @@ START EVENT PAGES
 
 @app.route('/events')
 def events():
-    '''    
     if checkSession() == False: #check to make sure user is logged in	
         return redirect('login')
-    '''
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
     e = eventList()
     e.getAll()
     
@@ -467,10 +617,11 @@ def events():
     
 @app.route('/event')
 def event():
-    '''
     if checkSession() == False: #check to make sure user is logged in	
         return redirect('login')
-    '''
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
     e = eventList()
     if request.args.get(e.pk) is None:
         return render_template('error.html', msg='No event id given.')  
@@ -484,6 +635,11 @@ def event():
     
 @app.route('/newevent',methods = ['GET', 'POST'])
 def newevent():
+    if checkSession() == False: #check to make sure user is logged in	
+        return redirect('login')
+    elif session['user']['userType'] == 'customer':
+        return redirect('login')
+        
     if request.form.get('eventType') is None:
         e = eventList()
         e.set('eventType','')
@@ -516,8 +672,119 @@ def newevent():
         else:
             return render_template('event/newevent.html', title='event Not Saved',  event=e.data[0],msg=e.errorList)
             
+@app.route('/newappointment',methods = ['GET', 'POST'])
+def newappointment():
+#customer facing
+    if checkSession() == False: #check to make sure user is logged in	
+        return redirect('login')
+        
+    a = animalList()
+    a.getByField('userID',session['user']['userID'])
+    
+        
+    if request.form.get('eventType') is None:
+        e = eventList()
+        e.set('eventType','')
+        e.set('eventScheduleDate','')
+        e.set('eventCompletedDate','')
+        e.set('eventName','')
+        e.set('eventResult','')
+        e.set('animalID','')
+        e.set('userID','')
+        e.set('transactionID','')
+        e.add()
+        
+        return render_template('event/newappointment.html', title='New Event',  event=e.data[0], animals = a.data) 
+    else:
+        e = eventList()
+        e.set('eventType',request.form.get('eventType'))
+        e.set('eventCompletedDate',request.form.get('eventCompletedDate'))
+        e.set('eventName',request.form.get('eventName'))
+        e.set('eventResult',request.form.get('eventResult'))
+        e.set('animalID',request.form.get('animalID'))
+        e.set('userID',session['user']['userID'])
+        e.set('transactionID',request.form.get('transactionID'))
+       
+        e.add()
+        if e.verifyNew():
+            e.insert()
+            print(e.data)
+            return render_template('event/savedevent.html', title='event Saved',  event=e.data[0], animals = a.data)
+        else:
+            return render_template('event/newappointment.html', title='event Not Saved',  event=e.data[0],msg=e.errorList, animals = a.data)
+            
+            
+@app.route('/newadoption',methods = ['GET', 'POST'])
+def newadoption():
+#customer facing, must be logged in as user
+    if checkSession() == False: #check to make sure user is logged in	
+        return redirect('login')
+
+    animalID = 0
+    animalID = request.args.get('animalID', animalID)
+    #print('animalID',animalID)
+    a = animalList()
+    a.getById(animalID)
+    e = eventList()
+    t = transactionList()
+    
+    
+    adoptionFee = 0
+    if a.data[0]['animalType'] == 'Dog':
+        adoptionFee = 150
+    elif a.data[0]['animalType'] == 'Cat':
+        adoptionFee = 50
+    else:
+        print('error, adoptionFee')
+        
+    print('event info:', request.form.get('eventType'))
+    '''
+    if request.form.get('eventType') is None:
+        e.set('eventType','')
+        e.set('eventScheduleDate','')
+        e.set('eventCompletedDate','')
+        e.set('eventName','')
+        e.set('eventResult','')
+        e.set('animalID','')
+        e.set('userID','')
+        e.set('transactionID','')
+        e.add()
+        allAnimals = animalList()
+        allAnimals.getAll()
+        return render_template('event/newadoption.html', title='Adopt animal',  event=e.data[0], animal=a.data[0], transaction=t.data[0])
+    else:
+    '''
+    e = eventList()
+    e.set('eventType','Adoption')
+    e.set('eventCompletedDate','n/a')
+    e.set('eventName','Adoption of '+a.data[0]['animalName'])
+    e.set('eventResult','n/a')
+    e.set('animalID',animalID)
+    e.set('userID',session['user']['userID'])
+    
+    t.addByDefault(request.form.get('transactionID'), 'Adoption', adoptionFee, session['user']['userID'])
+    
+    '''
+    t.set('transactionID',request.form.get('transactionID'))
+    t.set('transactionType',request.form.get('transactionType'))
+    t.set('transactionAmount',adoptionFee)
+    t.set('userID',session['user']['userID'])
+    t.add()
+    t.insert
+    '''
+    e.set('transactionID',request.form.get('transactionID'))
+    e.add()
+    
+    if e.verifyNew():
+        e.insert()
+        print(e.data)
+        return render_template('event/savedevent.html', title='Adoption Saved',  event=e.data[0], animal=a.data[0], transaction=t.data[0])
+    else:
+        return render_template('event/newadoption.html', title='event Not Saved',  event=e.data[0],msg=e.errorList, animal=a.data[0], transaction=t.data[0])
+        
 @app.route('/saveevent',methods = ['GET', 'POST'])
 def saveevent():
+#TODO unsure
     e = eventList()
     e.set('eventID',request.form.get('eventID'))
     e.set('eventType',request.form.get('eventType'))
@@ -554,8 +821,10 @@ def login():
             print('login successful')	
             session['user'] = u.data[0]	
             session['active'] = time.time()	
-            	
-            return redirect('main')	
+            if session['user']['userType'] == 'customer':
+                return redirect('main')	
+            elif session['user']['userType'] == 'employee':
+                return redirect('mainadmin')	
         else:  	
             print('login failed')	
             return render_template('login.html', title='Login', msg='Incorrect credentials')	
