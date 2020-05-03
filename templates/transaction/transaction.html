@@ -5,7 +5,11 @@
 	<form action="/savetransaction" method="POST">
     
         User:<br>
-        <input type="text" name="userID" value="{{ transaction.userID }}" /><br><br>
+        <select name="userID">
+            {% for user in users %}
+            <option value="{{ user.userID }}">{{ user.userFName }} ({{ user.userLName }} {{ user.userType }})</option>
+            {% endfor %}
+        </select> <br><br>
     
         Transaction Date:<br>
         <input type="text" name="transactionDate" value="{{ transaction.transactionDate }}"/><br><br>
@@ -13,7 +17,7 @@
         Transaction Type:<br>
         <input type="text" name="transactionType" value="{{ transaction.transactionType }}"/><br><br>
     
-		Amount:<br>
+		Amount  (no decimals):<br>
         <input type="text" name="transactionAmount" value="{{ transaction.transactionAmount }}"/><br><br>
         
         <input type="hidden" name="transactionID" value="{{ transaction.transactionID }}" />

@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
+<!-- transaction -->
+
 {% block content %}
-    <h1>Adopt This Animal</h1>
+    <h1>Adoption Transaction</h1><br>
+    Are you sure you would like to adopt this animal? <br><br>
+    
 	{% if msg %}
       <div id="errormsg">
 	  {% for err in msg %}
@@ -10,7 +14,7 @@
 	  </div>
     {% endif %}
 		
-		<form action="/newadoption" method="POST">
+		<form action="/newadoptiontransaction?animalID={{ animal.animalID }}" method="POST">
         
             <b>Animal Name: </b>
             {{ animal.animalName }}<br><br>
@@ -20,13 +24,15 @@
             
             <b>Adoption Fee: ${{ fee }}<br><br>
         
+            <input type="hidden" name="transactionAmount" value="{{ fee }}" />
+            
 			<input type="hidden" name="transactionType" value="Adoption" />
             
             <input type="hidden" name="transactionID" value="{{ transaction.transactionID }}" />
 			
 			
             
-			<input type="submit" value="Adopt this animal"/>
+			<input type="submit" value="Pay Adoption Fee"/>
 			
 		</form>
 {% endblock %}

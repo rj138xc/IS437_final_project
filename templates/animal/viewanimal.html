@@ -4,6 +4,7 @@
     <h1>{{ animal.animalName }}</h1>
 	<body>
     
+        <img src={{ animal.animalPhoto }} height="150" width="150"> <br><br>
 		
 		<b>Animal Type: </b>
 		{{ animal.animalType }}<br><br>
@@ -21,13 +22,12 @@
 		{{ animal.animalSize }}<br><br>
         
         
-        <b>Animal Photo:</b><br>
-		{{ animal.animalPhoto }}<br><br>
-        
 		<input type="hidden" name="animalID" value="{{ animal.animalID }}" />
 		
 		<br><br>
-        <a href="newadoption?animalID={{ animal.animalID }}">Adopt This Animal</a><br><br>
+        <a href="newadoptiontransaction?animalID={{ animal.animalID }}">Adopt This Animal</a><br><br>
+        
+        <a href="adoptable?animalType={{ animal.animalType }}">Back to Adoptable {{ animal.animalType }}s</a><br><br>
 		
     <body>
 {% endblock %}

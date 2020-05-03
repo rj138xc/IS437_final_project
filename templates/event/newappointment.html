@@ -10,10 +10,18 @@
 	  </div>
     {% endif %}
 		
+        <!-- signed in as {{ user }} <br><br> -->
+        
 		<form action="/newappointment" method="POST">
 			 
             Event Type:<br>
-            <input type="text" name="eventType" /><br><br>
+            <select name="eventType">
+                <option value="Check up">Check up</option>
+                <option value="Procedure">Procedure</option>
+                <option value="Emergency">Emergency</option>
+                <option value="Meet & Greet">Meet & Greet</option>
+                <option value="Other">Other</option>
+            </select> <br><br>
             
             Event Name:<br>
             <input type="text" name="eventName" /><br><br>
@@ -27,16 +35,12 @@
                 {% for animal in animals %}
                 <option value="{{ animal.animalID }}">{{ animal.animalName }} ({{ animal.animalBreed }} {{ animal.animalType }})</option>
                 {% endfor %}
+                <option value="Other">Other</option>
             </select> <br><br>
-            
-            <!-- <input type="text" name="animalID" /><br><br>
-            -->
-            
-            Date to be completed:<br>
+
+            Date scheduled for:<br>
             <input type="datetime-local" name="eventCompletedDate" /><br><br>
             
-            Transaction ID #TODO fix this:<br>
-            <input type="text" name="transactionID" /><br><br>
             
 			
 			<br><br>

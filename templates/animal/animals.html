@@ -19,7 +19,7 @@
                 <td>{{ animal.animalType }}</td>
                 <td>{{ animal.animalBreed }}</td>
                 <td>{{ animal.animalGender }}</td>
-                <td><img src="Toby.jpg"></td>
+                <td><img src={{ animal.animalPhoto }} height="100" width="100"></td>
             </tr>
         {% endfor %}
         </table>

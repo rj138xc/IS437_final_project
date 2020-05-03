@@ -15,8 +15,15 @@
 			Transaction Type:<br>
 			<input type="text" name="transactionType" /><br><br>
 			
-			Transaction Amount:<br>
+			Transaction Amount (no decimals):<br>
 			<input type="text" name="transactionAmount" /><br><br>
+            
+            User:<br>
+            <select name="userID">
+                {% for user in users %}
+                <option value="{{ user.userID }}">{{ user.userFName }} ({{ user.userLName }} {{ user.userType }})</option>
+                {% endfor %}
+            </select> <br><br>
 			
 			
 			<input type="submit" value="Save transaction"/>

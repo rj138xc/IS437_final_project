@@ -5,7 +5,14 @@
 	<form action="/saveevent" method="POST">
     
 		Event Type:<br>
-		<input type="text" name="eventType" value="{{ event.eventType }}" /><br><br>
+            <select name="eventType">
+                <option value="Adoption">Adoption</option>
+                <option value="Check up">Check up</option>
+                <option value="Procedure">Procedure</option>
+                <option value="Emergency">Emergency</option>
+                <option value="Meet & Greet">Meet & Greet</option>
+                <option value="Other">Other</option>
+            </select> <br><br>
 		
 		Event Name:<br>
 		<input type="text" name="eventName" value="{{ event.eventName }}" /><br><br>
@@ -16,14 +23,15 @@
 		<input type="text" name="eventResult" value="{{ event.eventResult }}" /><br><br>
         
         Animal:<br>
-		<input type="text" name="animalID" value="{{ event.animalID }}" /><br><br>
+        <select name="animalID">
+            {% for animal in al %}
+            <option value="{{ animal.animalID }}">{{ animal.animalName }} ({{ animal.animalBreed }} {{ animal.animalType }})</option>
+            {% endfor %}
+        </select> <br><br>
         
         Date to be completed:<br>
-        <input type="text" name="eventCompletedDate" value="{{ event.eventCompletedDate }}" /><br><br>
+        <input type="datetime-local" name="eventCompletedDate" /><br><br>
         
-        Transaction ID #TODO fix this:<br>
-        <input type="text" name="transactionID" value="{{ event.transactionID }}" /><br><br>
-         
          <input type="hidden" name="eventID" value="{{ event.eventID }}" />
 		
 		<br><br>

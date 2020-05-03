@@ -103,7 +103,7 @@ class baseObject:
             self.data.append(row)   
             
     def update(self,n=0):
-        print("IN UPDATE")
+        #print("IN UPDATE")
         tokens = []
         setstring = ''
         for fieldname in self.data[n].keys():
@@ -117,7 +117,7 @@ class baseObject:
         self.connect()
         cur = self.conn.cursor(pymysql.cursors.DictCursor)
         #print(sql)
-        #print(tokens)
+        #print('tokens: ',tokens)
         cur.execute(sql,tokens)
     
     def getByField(self,field,value):

@@ -6,6 +6,8 @@ class eventList(baseObject):
         self.setupObject('events')
         
     def verifyNew(self,n=0):
+        print('verifyNew event e.data[0]:',self.data[0])
+        
         self.errorList = []
         
         if len(self.data[n]['eventName']) == 0:
