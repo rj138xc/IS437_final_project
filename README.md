@@ -1,6 +1,6 @@
 # IS437 Final Project
 
-For this project I made a basic website for a humane society or simple veterinarian office. Information for the organization would be stored in four tables- Users, Transactions, Animals, and Events. Employees can log in and are able to create, read, update, or delete animal records. They can also create, read, and update info regarding certain events such as animal care/procedures or a user bringing in a new animal. General users that are not employees can view the general information about the organization, and the different animals available for adoption. In order to donate, adopt, or request other information they must log in as a customer. 
+For this project I made a basic website for a humane society or simple veterinarian office. Information for the organization would be stored in four tables- Users, Transactions, Animals, and Events. Employees can log in and are able to create, read, or update animal records. They can also create, read, and update info regarding certain events such as animal care/procedures or a user bringing in a new animal. General users that are not employees can view the general information about the organization, and the different animals available for adoption. In order to donate, adopt, schedule an appointment they must log in as a customer. 
  
 ## Use Cases:
 * A user views the animals available for adoption
@@ -16,3 +16,7 @@ For this project I made a basic website for a humane society or simple veterinar
 ## Relational Schema
 
 ![Relational Schema](/docs/rs.jpg)
+
+##Credetials for users
+(employee) email: mj@gmail.com	password: 000000
+(customer) email: ru@g.com		password: 123456
