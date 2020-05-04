@@ -18,5 +18,7 @@ For this project I made a basic website for a humane society or simple veterinar
 ![Relational Schema](/docs/rs.jpg)
 
 ## Credetials for users
-* (employee) email: mj@gmail.com	password: 000000
-* (customer) email: ru@g.com		password: 123456
+User Type | Email | Password
+----------|-------|----------
+Employee | mj@gmail.com | 000000
+Customer | ru@g.com | 123456
